@@ -1,5 +1,5 @@
 /*
-    Programa: Contagem de números
+    Programa: Pedras de Dominó
     Autor: Thelsandro Antunes
     1ª Versão 
     Concluída em: 21/06/2018
