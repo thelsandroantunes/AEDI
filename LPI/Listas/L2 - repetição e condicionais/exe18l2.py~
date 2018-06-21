@@ -1,0 +1,7 @@
+for i in range(20):
+  n=int(input())
+
+  if(n%2==0):
+    print(n, "par")
+  else:
+    print(n, "impar")

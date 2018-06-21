@@ -1,0 +1,13 @@
+from __future__ import print_function
+
+for i in range(2,21):
+    print("r2(",i,end=")=")
+    print("%.2f"%(i**(1/float(2))),end=" ")
+    print("r3(",i,end=")=")
+    print("%.2f"%(i**(1/float(3))), end=" ")
+    print("r4(",i,end=")=")
+    print("%.2f"%(i**(1/float(4))),end=" ")
+    print("r5(",i,end=")=")
+    print("%.2f"%(i**(1/float(5))))
+    print(" ")
+    

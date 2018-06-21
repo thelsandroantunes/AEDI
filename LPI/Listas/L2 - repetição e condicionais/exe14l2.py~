@@ -1,0 +1,5 @@
+soma=0
+for i in range(20):
+  n=float(input())
+  soma = soma +(n**2)
+print(soma)

@@ -1,0 +1,25 @@
+from __future__ import print_function
+
+n=int(input("N? "))
+antant=0
+ant=1
+
+if n>=1 :
+  print("0")
+if n>=2 :
+  print("1")
+
+i=0
+while(i<n-2):
+  termo = antant+ant
+  
+  if(n == termo):
+    print(n,end=" pertence a serie fibonacci")
+    break
+  elif(termo > n):
+    print("Numero ",n,end=" nao pertence a serie")
+    break  
+  print(termo)
+  antant=ant
+  ant=termo
+  i=i+1

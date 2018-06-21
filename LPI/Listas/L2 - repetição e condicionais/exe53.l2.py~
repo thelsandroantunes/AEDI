@@ -1,0 +1,20 @@
+from random import randint
+
+x=randint(1,1000)
+maior=0
+menor=x
+soma = 0
+
+for i in range(49):
+   
+   print(x)
+   if(maior<x):
+     maior=x
+   if(menor>x):
+     menor=x
+   soma = soma + x  
+   x=randint(1,1000)
+   
+print("maior: ",maior)
+print("menor: ",menor)
+print("media: ",soma/50)

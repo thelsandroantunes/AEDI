@@ -1,0 +1,21 @@
+a = int(input())
+b = int(input())
+c = int(input())
+
+if(a>b and a>c):
+  if(b>c):
+    print("meio:",b)
+  else:
+    print("meio:",c)
+else:
+  if(b>a and b>c):
+    if(a>c):
+      print("meio:",a)
+    else:
+      print("meio:",c)
+  else:
+    if(c>a and c>b):
+      if(a>b):
+        print("meio:",a)
+      else:
+        print("meio:",b)

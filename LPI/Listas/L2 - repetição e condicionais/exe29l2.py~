@@ -1,0 +1,14 @@
+from __future__ import print_function
+
+g=0
+while(g<3):
+
+  print("*******************")
+  n=int(input("n?"))
+
+  print("Divisores exatos: ")
+  for i in range(1,n+1):
+    if((n%i)==0):
+      print(i, end=", ")
+  g=g+1
+  print()

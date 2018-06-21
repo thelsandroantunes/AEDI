@@ -1,0 +1,33 @@
+from __future__ import print_function
+
+
+def meio(a):
+  if(a[0]>a[1] and a[0]>a[2]):
+    if(a[1]>a[2]):
+      return a[1]
+    else:
+      return  a[2]
+  else:
+    if(a[1]>a[0] and a[1]>a[2]):
+      if(a[0]>a[2]):
+        return a[0]
+      else:
+        return a[2]
+    else:
+      if(a[2]>a[0] and a[2]>a[1]):
+        if(a[0]>a[1]):
+          return a[0]
+        else:
+          return a[1]
+
+
+g=1
+while(g<10):
+  m=[]
+  print("*****************")
+  for i in range(3):    
+    n=int(input("valor?"))
+    m.append(n)
+        
+  print("Grupo",g," MEIO: ", meio(m))
+  g=g+1

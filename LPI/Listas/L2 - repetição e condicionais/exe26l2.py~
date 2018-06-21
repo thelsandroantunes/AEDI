@@ -1,0 +1,13 @@
+from __future__ import print_function
+
+n=int(input("n?"))
+while(n>-1):
+  
+  fat=1
+
+  for i in range(n,1,-1):
+    fat=fat*i
+
+  print("fatorial: ", fat)
+  n=int(input("n?"))
+

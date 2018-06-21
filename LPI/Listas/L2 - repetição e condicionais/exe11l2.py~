@@ -1,0 +1,13 @@
+n=int(input())
+i=1
+ver=0
+for i in range(100):
+  c=i*(i+1)*(i+2)
+  if(n==c):
+    print('Eh produto de:'+str(i)+'*'+str(i+1)+'*'+str(i+2))
+    ver=0
+    break
+  else:
+    ver=1
+if(ver==1):
+  print('Nao eh produto de sequencia')
