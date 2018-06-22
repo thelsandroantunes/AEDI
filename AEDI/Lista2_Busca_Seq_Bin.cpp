@@ -1,10 +1,11 @@
 /*
     Programa: Busca Sequencial e Binária
     Autor: Thelsandro Antunes
-    1ª Versão 
-    Concluída em: 21/06/2018
+    2ª Versão 
+    Concluída em: 22/06/2018
     Breve descrição:
         Este programa utiliza Classes, objetos, atributos, métodos e construtores em C++
+        para o cenário educacional.
 */
 
 #include<iostream>
@@ -70,7 +71,8 @@ public:
     
 };
 
-
+void bubbleSort(Disciplina[], int);
+int buscaBinaria(string, Disciplina[], int);
 int buscaSequencial(string, Disciplina[], int);
 void imprimir2(Disciplina[],int);
 int buscaSequencial();
@@ -78,14 +80,45 @@ void questao01();
 void questao02();
 void questao03();
 void questao04();
+void questao05();
 
 int main()
 {
-    questao04();
+    questao05();
 
     return 0;
 }
-
+void bubbleSort(Disciplina p[], int tam)
+{
+    int i,j;
+    Disciplina temp;
+    
+    for(int i = (tam-1); i >= 0; i--)
+    {   
+        for(int j = 1; j <= i; j++)
+        {              
+            if(p[j-1].getCodigo() > p[j].getCodigo())
+            {
+                temp = p[j-1];
+                p[j-1] = p[j];
+                p[j] = temp;
+            }
+        }
+    }    
+}
+int buscaBinaria(string k, Disciplina p[], int tam)
+{
+    int i=0,j=tam-1;
+    
+    while(i<=j)
+    {    
+        int m = (i+j)/2;
+        if(k == p[m].getCodigo()) return m;
+        else if(k < p[m].getCodigo()) j = m - 1;
+        else i = m + 1;
+    }
+    return -1;
+}
 int buscaSequencial(string k, Disciplina p[], int tam)
 {
     
@@ -203,4 +236,40 @@ void questao04()
     {
         vetor[pos].imprimir();
     }
+}
+void questao05()
+{
+    Disciplina vetor[TAM];
+    
+    for(int i = 0; i < TAM; i++)
+    {
+        string nome,c;
+        int ch;
+
+        cin >> nome >> c >> ch;
+        vetor[i].setNome(nome);
+        vetor[i].setCodigo(c);
+        vetor[i].setCarga_Horaria(ch);
+    }
+
+    bubbleSort(vetor,TAM);
+    cout<<endl;
+    cout<<"Vetor de Disciplina Ordenado"<<endl;
+    imprimir2(vetor,TAM);
+    
+    string chave;
+    cout << "Código a buscar: ";
+    cin >> chave;
+    
+    int pos = buscaBinaria(chave,vetor,TAM);
+
+    if(pos==-1)
+    {
+        cout << "elemento Não encontrado"<<endl;
+    }
+    else
+    {
+        vetor[pos].imprimir();
+    }
+
 }
