@@ -1,14 +1,14 @@
 /*
     Programa: Busca Sequencial e Binária
     Autor: Thelsandro Antunes
-    3ª Versão 
+    4ª Versão 
     Concluída em: 22/06/2018
     Breve descrição:
         Este programa de Disciplinas utiliza Classes, objetos, atributos, métodos e construtores em C++        
 */
 
 #include<iostream>
-#define TAM 5
+#define TAM 10
 
 using namespace std;
 
@@ -16,13 +16,13 @@ class Disciplina
 {
 private:
     string nome;
-    string codigo;
+    int codigo;
     int carga_horaria;    
 
 public:
     Disciplina(){}
     
-    Disciplina(string nome,string codigo, int carga_horaria)
+    Disciplina(string nome,int codigo, int carga_horaria)
     {
         this->nome = nome;
         this->codigo = codigo;
@@ -38,12 +38,12 @@ public:
     {
         this->nome = nome;
     }
-    string getCodigo()
+    int getCodigo()
     {
         return this->codigo;
     }
 
-    void setCodigo(string codigo)
+    void setCodigo(int codigo)
     {
         this->codigo = codigo;
     }
@@ -74,9 +74,10 @@ void menu();
 void verificar(Disciplina[], int);
 void preencher(Disciplina[]);
 void bubbleSort(Disciplina[]);
-int buscaBinaria(string, Disciplina[], int);
-int buscaSequencial(string, Disciplina[]);
-int buscaSequencialSentinela(string, Disciplina[]);
+int buscaBinaria(int, Disciplina[]);
+int buscaTrinaria(int, Disciplina[]);
+int buscaSequencial(int, Disciplina[]);
+int buscaSequencialSentinela(int, Disciplina[]);
 void imprimir2(Disciplina[]);
 void questao01();
 void questao02();
@@ -159,8 +160,8 @@ void preencher(Disciplina p[])
 {    
     for(int i = 0; i < TAM; i++)
     {
-        string nome,c;
-        int ch;
+        string nome;
+        int ch,c;
 
         cin >> nome >> c >> ch;
         p[i].setNome(nome);
@@ -186,7 +187,7 @@ void bubbleSort(Disciplina p[])
         }
     }    
 }
-int buscaBinaria(string k, Disciplina p[])
+int buscaBinaria(int k, Disciplina p[])
 {
     int i=0,j=TAM-1;
     
@@ -199,7 +200,58 @@ int buscaBinaria(string k, Disciplina p[])
     }
     return -1;
 }
-int buscaSequencial(string k, Disciplina p[])
+int buscaTrinaria(int chave, Disciplina p[])
+{
+    int i=0, j=(TAM/2), k=(TAM-1);
+    
+    int m1 = ((i+j+k)/3)-1 ;
+    int m2= ((m1+k)/2)+1;
+
+    while(i<=k and j <=k)
+    {    
+    
+        if(chave == p[m1].getCodigo()) return m1;
+        else if(chave == p[m2].getCodigo()) return m2;        
+        else if((chave > p[m1].getCodigo()) and (chave < p[m2].getCodigo()))
+        {
+            i = m1 + 1;            
+            k = m2 - 1;
+            j = (i+k)/2;
+            if(i == k)
+            {
+                m1 = m2 = i;
+                if(chave == p[m1].getCodigo()) return m1;
+            }
+        }
+        else if(chave < p[m1].getCodigo())
+        {
+            k = m1 - 1;
+            j = (i+k)/2;
+            if(i == k)
+            {
+                m1 = m2 = i;
+                if(chave == p[m1].getCodigo()) return m1;
+            }
+        }else if(chave > p[m2].getCodigo())
+        {
+            i = m2 + 1;
+            j = (i+k)/2;
+
+            if(i == k)
+            {
+                m1 = m2 = i;
+                if(chave == p[m1].getCodigo()) return m1;
+            }
+        }
+
+        m1 = ((i+j+k)/3)-1 ;
+        m2= ((m1+k)/2)+1;
+        
+    }
+    
+    return -1;
+}
+int buscaSequencial(int k, Disciplina p[])
 {
     
     for(int i = 0; i < TAM; i++)
@@ -210,7 +262,7 @@ int buscaSequencial(string k, Disciplina p[])
     
     return -1;
 }
-int buscaSequencialSentinela(string k, Disciplina p[])
+int buscaSequencialSentinela(int k, Disciplina p[])
 {
     p[TAM].setCodigo(k); // posiciona k como “sentinela”
     int i = 0;
@@ -233,7 +285,7 @@ void questao01()
 {
     Disciplina d;
     d.setNome("Algoritmo e Estruturas de Dados");
-    d.setCodigo("123456-A2018");
+    d.setCodigo(123456);
     d.setCarga_Horaria(90);
 
     d.imprimir();
@@ -251,7 +303,7 @@ void questao03()
     Disciplina vetor[TAM];
     preencher(vetor);
 
-    string chave;
+    int chave;
     cout << "Código a buscar: ";
     cin >> chave;
 
@@ -262,7 +314,7 @@ void questao04()
     Disciplina vetor[TAM+1];    
     preencher(vetor);
 
-    string chave;
+    int chave;
     cout << "Código a buscar: ";
     cin >> chave;
     verificar(vetor,buscaSequencialSentinela(chave,vetor));
@@ -277,7 +329,7 @@ void questao05()
     cout<<"Vetor de Disciplina Ordenado"<<endl;
     imprimir2(vetor);
     
-    string chave;
+    int chave;
     cout << "Código a buscar: ";
     cin >> chave;
     
@@ -286,5 +338,17 @@ void questao05()
 }
 void questao06Extra()
 {
+    Disciplina vetor[TAM];
+    
+    preencher(vetor);
+    bubbleSort(vetor);
+    cout<<endl;
+    cout<<"Vetor de Disciplina Ordenado"<<endl;
+    imprimir2(vetor);
+    
+    int chave;
+    cout << "Código a buscar: ";
+    cin >> chave;
 
+    verificar(vetor,buscaTrinaria(chave,vetor));
 }
