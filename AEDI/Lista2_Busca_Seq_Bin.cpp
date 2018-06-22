@@ -1,11 +1,10 @@
 /*
     Programa: Busca Sequencial e Binária
     Autor: Thelsandro Antunes
-    2ª Versão 
+    3ª Versão 
     Concluída em: 22/06/2018
     Breve descrição:
-        Este programa utiliza Classes, objetos, atributos, métodos e construtores em C++
-        para o cenário educacional.
+        Este programa de Disciplinas utiliza Classes, objetos, atributos, métodos e construtores em C++        
 */
 
 #include<iostream>
@@ -68,32 +67,113 @@ public:
         cout<<endl;
     }
 
-    
 };
 
-void bubbleSort(Disciplina[], int);
+void start();
+void menu();
+void verificar(Disciplina[], int);
+void preencher(Disciplina[]);
+void bubbleSort(Disciplina[]);
 int buscaBinaria(string, Disciplina[], int);
-int buscaSequencial(string, Disciplina[], int);
-void imprimir2(Disciplina[],int);
-int buscaSequencial();
+int buscaSequencial(string, Disciplina[]);
+int buscaSequencialSentinela(string, Disciplina[]);
+void imprimir2(Disciplina[]);
 void questao01();
 void questao02();
 void questao03();
 void questao04();
 void questao05();
+void questao06Extra();
 
 int main()
 {
-    questao05();
+    start();
 
     return 0;
 }
-void bubbleSort(Disciplina p[], int tam)
+void start()
+{
+    int op;
+    do
+    {
+        menu();
+        cout << ">> ";
+        cin >> op;
+
+        switch(op){
+            case 0:
+            break;
+            case 1:
+                questao01();
+                cout<<endl;
+            break;
+            case 2:
+                questao02();
+                cout<<endl;
+            break;
+            case 3:
+                questao03();
+                cout<<endl;
+            break;
+            case 4:
+                questao04();
+                cout<<endl;
+            break;
+            case 5:
+                questao05();
+                cout<<endl;
+            break;
+            case 6:
+                questao06Extra();
+                cout<<endl;
+            break;
+            default:
+                cout << "operação inválida" << endl;
+            break;
+        }        
+    } while (op != 0);
+    cout<<endl;
+
+}
+void menu()
+{
+    cout<<" MENU "<<endl;
+    cout<<"1  - questão01"<<endl;
+    cout<<"2  - questão02"<<endl;
+    cout<<"3  - questão03"<<endl;
+    cout<<"4  - questão04"<<endl;
+    cout<<"5  - questão05"<<endl;
+    cout<<"6  - questão06-EXTRA"<<endl;
+    cout<<"0 - SAIR"<<endl;
+    cout<<endl;
+}
+void verificar(Disciplina p[], int pos)
+{
+    cout<<endl;
+    if(pos==-1)
+        cout << "elemento Não encontrado"<<endl;
+    else
+        p[pos].imprimir();
+}
+void preencher(Disciplina p[])
+{    
+    for(int i = 0; i < TAM; i++)
+    {
+        string nome,c;
+        int ch;
+
+        cin >> nome >> c >> ch;
+        p[i].setNome(nome);
+        p[i].setCodigo(c);
+        p[i].setCarga_Horaria(ch);
+    }    
+}
+void bubbleSort(Disciplina p[])
 {
     int i,j;
     Disciplina temp;
     
-    for(int i = (tam-1); i >= 0; i--)
+    for(int i = (TAM-1); i >= 0; i--)
     {   
         for(int j = 1; j <= i; j++)
         {              
@@ -106,9 +186,9 @@ void bubbleSort(Disciplina p[], int tam)
         }
     }    
 }
-int buscaBinaria(string k, Disciplina p[], int tam)
+int buscaBinaria(string k, Disciplina p[])
 {
-    int i=0,j=tam-1;
+    int i=0,j=TAM-1;
     
     while(i<=j)
     {    
@@ -119,10 +199,10 @@ int buscaBinaria(string k, Disciplina p[], int tam)
     }
     return -1;
 }
-int buscaSequencial(string k, Disciplina p[], int tam)
+int buscaSequencial(string k, Disciplina p[])
 {
     
-    for(int i = 0; i < tam; i++)
+    for(int i = 0; i < TAM; i++)
     {
         if(k == p[i].getCodigo())
             return i;
@@ -130,24 +210,21 @@ int buscaSequencial(string k, Disciplina p[], int tam)
     
     return -1;
 }
-int buscaSequencialSentinela(string k, Disciplina p[], int tam)
+int buscaSequencialSentinela(string k, Disciplina p[])
 {
-    p[tam].setCodigo(k); // posiciona k como “sentinela”
+    p[TAM].setCodigo(k); // posiciona k como “sentinela”
     int i = 0;
     
-    while(k != p[i].getCodigo())
-    {
-        i++;
-    }
+    while(k != p[i].getCodigo()) i++;
     
-    if(i == tam) return -1;
+    if(i == TAM) return -1;
     else return i;
 }
-void imprimir2(Disciplina p[], int tam)
+void imprimir2(Disciplina p[])
 {
     cout << "----------LISTA----------" << endl;
     cout<<endl;
-    for(int i = 0; i < tam; i++)
+    for(int i = 0; i < TAM; i++)
         p[i].imprimir();
 
     cout << "-------------------------" << endl;
@@ -163,113 +240,51 @@ void questao01()
 }
 void questao02()
 {
-    Disciplina vetor[TAM];
-    
-    for(int i = 0; i < TAM; i++)
-    {
-        string nome,c;
-        int ch;
-
-        cin >> nome >> c >> ch;
-        vetor[i].setNome(nome);
-        vetor[i].setCodigo(c);
-        vetor[i].setCarga_Horaria(ch);
-    }
+    Disciplina vetor[TAM];    
+    preencher(vetor);
     cout<<endl;
-    imprimir2(vetor,TAM);
+    imprimir2(vetor);
 
 }
 void questao03()
 {
     Disciplina vetor[TAM];
-    
-    for(int i = 0; i < TAM; i++)
-    {
-        string nome,c;
-        int ch;
-
-        cin >> nome >> c >> ch;
-        vetor[i].setNome(nome);
-        vetor[i].setCodigo(c);
-        vetor[i].setCarga_Horaria(ch);
-    }
+    preencher(vetor);
 
     string chave;
     cout << "Código a buscar: ";
     cin >> chave;
-    int pos = buscaSequencial(chave,vetor,TAM);
-    if(pos==-1)
-    {
-        cout << "elemento Não encontrado"<<endl;
-    }
-    else
-    {
-        vetor[pos].imprimir();
-    }
 
+    verificar(vetor,buscaSequencial(chave,vetor));
 }
 void questao04()
 {
-    Disciplina vetor[TAM+1];
-    
-    for(int i = 0; i < TAM; i++)
-    {
-        string nome,c;
-        int ch;
-
-        cin >> nome >> c >> ch;
-        vetor[i].setNome(nome);
-        vetor[i].setCodigo(c);
-        vetor[i].setCarga_Horaria(ch);
-    }
+    Disciplina vetor[TAM+1];    
+    preencher(vetor);
 
     string chave;
     cout << "Código a buscar: ";
     cin >> chave;
-    int pos = buscaSequencialSentinela(chave,vetor,TAM);
-    //cout << "pos >> "<< pos <<endl;
-    if(pos==-1)
-    {
-        cout << "elemento Não encontrado"<<endl;
-    }
-    else
-    {
-        vetor[pos].imprimir();
-    }
+    verificar(vetor,buscaSequencialSentinela(chave,vetor));
 }
 void questao05()
 {
     Disciplina vetor[TAM];
     
-    for(int i = 0; i < TAM; i++)
-    {
-        string nome,c;
-        int ch;
-
-        cin >> nome >> c >> ch;
-        vetor[i].setNome(nome);
-        vetor[i].setCodigo(c);
-        vetor[i].setCarga_Horaria(ch);
-    }
-
-    bubbleSort(vetor,TAM);
+    preencher(vetor);
+    bubbleSort(vetor);
     cout<<endl;
     cout<<"Vetor de Disciplina Ordenado"<<endl;
-    imprimir2(vetor,TAM);
+    imprimir2(vetor);
     
     string chave;
     cout << "Código a buscar: ";
     cin >> chave;
     
-    int pos = buscaBinaria(chave,vetor,TAM);
+    verificar(vetor,buscaBinaria(chave,vetor));
 
-    if(pos==-1)
-    {
-        cout << "elemento Não encontrado"<<endl;
-    }
-    else
-    {
-        vetor[pos].imprimir();
-    }
+}
+void questao06Extra()
+{
 
 }
