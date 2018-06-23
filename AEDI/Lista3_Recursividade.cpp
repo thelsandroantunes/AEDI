@@ -1,7 +1,7 @@
 /*
     Programa: Recursividade
     Autor: Thelsandro Antunes
-    4ª Versão 
+    5ª Versão 
     Concluída em: 23/06/2018
     Breve descrição:
         Este programa utiliza Funções de Ordenação(Bubble Sort), Busca Sequencial e Binária em C++        
@@ -18,7 +18,9 @@ using namespace std;
 void start();
 void menu();
 int valorN();
-void copiaVetor(int[], int[], int);
+void copiaVetor(int[], int[], int, int);
+void copiaVetor2(int[], int[], int[], int, int);
+void somaVetores(int[], int[], int[], int);
 void printRecursive(int);
 void printRecursive2(int);
 void printRecursive3(int[], int);
@@ -39,7 +41,8 @@ void questao06B(int v[], int, int);
 void questao06C(int[], int);
 void questao6AB(int[], int);
 void questao07();
-
+void questao07A(int[], int, int);
+void questao07B(int[], int);
 
 int main()
 {
@@ -97,17 +100,17 @@ void start()
 void menu()
 {
     cout<<" MENU "<<endl;
-    cout<<"1  - questão01:recursivo(1,2,...,N)"<<endl;
-    cout<<"2  - questão02:recursivo inverso(N,...,2,1)"<<endl;
-    cout<<"3  - questão03:recursivo v[] ordenado"<<endl;
-    cout<<"4  - questão04:busca sequencial recursiva V[]"<<endl;
-    cout<<"5  - questão05:busca binaria recursiva v[]"<<endl;
-    cout<<"6  - questão06:"<<endl;
-    cout<<"     (A)obtém o máximo elemento do v[]"<<endl;
-    cout<<"     (B)troca máximo elemento com o último no v[]"<<endl;
-    cout<<"     (C)executa (A) e (B) nos subvetores v[n-2] e v[n-3]"<<endl;
-    cout<<"7  - questão07"<<endl;
-    cout<<"0 - SAIR"<<endl;
+    cout<<" (1)  - recursivo(1,2,...,N)"<<endl;
+    cout<<" (2)  - recursivo inverso(N,...,2,1)"<<endl;
+    cout<<" (3)  - recursivo v[] ordenado"<<endl;
+    cout<<" (4)  - busca sequencial recursiva V[]"<<endl;
+    cout<<" (5)  - busca binaria recursiva v[]"<<endl;
+    cout<<" (6)  - (A)obtém o máximo elemento do v[]"<<endl;
+    cout<<"        (B)troca máximo elemento com o último no v[]"<<endl;
+    cout<<"        (C)executa (A) e (B) nos subvetores v[n-2] e v[n-3]"<<endl;
+    cout<<" (7)  - (A)soma 1ª metade + 2ª metade do v[]"<<endl;
+    cout<<"        (B)aplica (A) nas metades do v[]"<<endl;
+    cout<<" (0)  - SAIR"<<endl;
     cout<<endl;
 }
 int valorN()
@@ -118,10 +121,26 @@ int valorN()
     cin >> n;
     return n;
 }
-void copiaVetor(int v1[], int v2[], int tam)
+void copiaVetor(int v1[], int v2[], int inicio, int fim)
+{ 
+    for(int i = 0; i < fim; i++)
+        v1[i] = v2[i];
+}
+void copiaVetor2(int v1[], int v2[], int v[], int tam)
+{
+    for(int i = 0, j = 0; i < tam; i++)
+    {
+        if(i < tam/2)
+            v1[i] = v[i];
+        else    
+            v2[j++] = v[i];
+    }
+        
+}
+void somaVetores(int v1[], int v2[], int soma[], int tam)
 {
     for(int i = 0; i < tam; i++)
-        v1[i] = v2[i];
+        soma[i] = v1[i] + v2[i];
 }
 void printRecursive(int n)
 {
@@ -314,7 +333,8 @@ void questao06()
     cout << "tamanho do vetor de inteiros >> ";
     do{
         cin >> tam;
-        cout<<"(tamanho > 4) >> ";
+        if(tam < 5)
+            cout<<"(tamanho > 4) >> ";
     }while(tam < 5);
     
     int v[tam];    
@@ -340,7 +360,6 @@ int questao06A(int v[], int tam)//Encontra o Maior elemento do Vetor NÃO ordena
                 return (v[tam-1]);
     }
 }
-
 void questao06B(int v[], int tam, int max)//Troca o Maior elemento com o ÚLTIMO elemento do Vetor
 {
     int ultimaPos = tam-1;
@@ -359,8 +378,8 @@ void questao06C(int v[], int tam)//Chama letra (A) e (B) para subVetores
     
     int v1[tam-2];
     int v2[tam-3];
-    copiaVetor(v1,v,tam-2);
-    copiaVetor(v2,v,tam-3);
+    copiaVetor(v1,v,0,tam-2);
+    copiaVetor(v2,v,0,tam-3);
     cout<<"-----------------------------------"<<endl;
     cout<<"SubVetor1"<<endl;
     questao6AB(v1,tam-2);
@@ -384,4 +403,62 @@ void questao6AB(int v[], int tam)
     printRecursive3(v,tam);
     cout<<endl;
 }
-void questao07(){}
+void questao07()
+{
+    int tam,k, max;
+    
+    cout << "tamanho do vetor de inteiros >> ";
+    do
+    {
+        cin >> tam;
+        if(tam < 5)
+            cout<<"(tamanho > 4) >> ";
+    }while(tam < 10);
+    
+    int v[tam];
+    
+    aleatoriosNP(v,tam);
+    cout << endl;
+    
+    printRecursive3(v, tam);
+    cout<<endl;
+   
+    cout<<"Letra (A): "<<endl;
+    questao07A(v, tam/2, tam);
+    cout<<endl;
+   
+    cout<<"Letra (B): "<<endl;
+    questao07B(v,tam);
+}
+void questao07A(int v[], int metade, int tam)//Soma a 1ª metade do vetor com a 2ª metade
+{
+    int v1[metade], v2[metade], soma[metade];
+
+    copiaVetor2(v1,v2,v,tam);
+    somaVetores(v1,v2,soma,metade);
+    
+    cout<<endl;
+    cout<<"v[] >> soma da 1ª metade + 2ª metade do vetor"<<endl;
+    printRecursive3(soma, metade);
+    cout<<endl;
+}
+void questao07B(int v[], int tam)//Divide as metades em mais 2 metades
+{
+    int metade = tam/2;
+    int v1[metade],v2[metade];
+    copiaVetor2(v1,v2,v,tam);
+
+    cout<<"1ª METADE v1[]"<<endl;
+    printRecursive3(v1,metade);
+    cout<<endl;
+    questao07A(v1,metade/2,metade);
+
+    cout<<endl;
+    cout<<endl;
+    cout<<"2ª METADE v2[]"<<endl;
+    printRecursive3(v2,metade);
+    cout<<endl;
+    questao07A(v2,metade/2, metade);
+
+    cout<<endl;
+}
