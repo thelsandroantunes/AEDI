@@ -1,10 +1,10 @@
 /*
     Programa: Recursividade
     Autor: Thelsandro Antunes
-    2ª Versão 
+    3ª Versão 
     Concluída em: 23/06/2018
     Breve descrição:
-        Este programa utiliza Funções em C++        
+        Este programa utiliza Funções de Ordenação(Bubble Sort), Busca Sequencial e Binária em C++        
 */
 
 #include<iostream>
@@ -25,6 +25,7 @@ void aleatoriosNP(int[], int);
 int existeNumero(int[],int, int);
 void bubbleSort(int[],int);
 int buscaSequencialRecursiva(int, int[], int);
+int buscaBinariaRecursiva(int, int[], int, int);
 void questao01();
 void questao02();
 void questao02(int);
@@ -92,9 +93,9 @@ void menu()
 {
     cout<<" MENU "<<endl;
     cout<<"1  - questão01:recursivo(1,2,...,N)"<<endl;
-    cout<<"2  - questão02: recursivo inverso(N,...,2,1)"<<endl;
-    cout<<"3  - questão03"<<endl;
-    cout<<"4  - questão04"<<endl;
+    cout<<"2  - questão02:recursivo inverso(N,...,2,1)"<<endl;
+    cout<<"3  - questão03:recursivo v[] ordenado"<<endl;
+    cout<<"4  - questão04:busca sequencial recursiva V[]"<<endl;
     cout<<"5  - questão05"<<endl;
     cout<<"6  - questão06"<<endl;
     cout<<"7  - questão07"<<endl;
@@ -192,6 +193,22 @@ int buscaSequencialRecursiva(int k, int v[], int tam)
         buscaSequencialRecursiva(k,v,tam-1);        
     }
 }
+int buscaBinariaRecursiva(int k, int v[], int i, int j)
+{
+    while(i<=j)
+    {
+        int m;
+        m=(i+j)/2;
+        if(v[m]==k)
+            return m;
+        else if (v[m]<k)
+            return buscaBinariaRecursiva(k, v, m+1, j);
+        else
+            return buscaBinariaRecursiva(k, v, i, m-1);
+    }
+
+    return -1;
+}
 void questao01()//OK
 {
     
@@ -218,7 +235,7 @@ void questao03()//OK
     cout << endl;
     printRecursive3(v,tam);
 }
-void questao04()
+void questao04()//OK
 {
     int tam,k;
 
@@ -236,8 +253,29 @@ void questao04()
     cout << "chave >> ";
     cin >> k;
 
-    cout << "OK >>" <<buscaSequencialRecursiva(k,v,tam)<<endl;
+    if(buscaSequencialRecursiva(k,v,tam) == 1) cout << "Elemento encontrado " << endl;
+    else cout << "NÃO ENCONTRADO" << endl;
 }
-void questao05(){}
+void questao05()//OK
+{
+    int tam,k;
+
+    cout << "tamanho do vetor de inteiros >> ";
+    cin >> tam;
+    
+    int v[tam];    
+
+    aleatoriosNP(v,tam);
+    cout << endl;
+    bubbleSort(v,tam);
+    printRecursive3(v,tam);
+
+    cout << endl;
+    cout << "chave >> ";
+    cin >> k;
+
+    if(buscaBinariaRecursiva(k,v,0,tam) == -1) cout << "NÃO ENCONTRADO" <<endl;
+    else cout << "Elemento encontrado " << endl;
+}
 void questao06(){}
 void questao07(){}
