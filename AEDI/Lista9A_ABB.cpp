@@ -1,14 +1,14 @@
 /*
     Programa: Árvore Binária de Busca (ABB)
     Autor: Thelsandro Antunes
-    1ª Versão 
+    2ª Versão 
     Concluída em: 24/06/2018
     Breve descrição:
         Este programa utiliza Classes, objetos, atributos, métodos e construtores em C++
 */
 
 #include<iostream>
-#define DIST 5
+#define DIST 3
 
 using namespace std;
 
@@ -62,6 +62,7 @@ private:
     void printABB(No*,int);
 
 public:
+    ABB();
     void criar();
     bool vazio();
     void inserir(int);    
@@ -90,17 +91,11 @@ void ABB::inserir(int chave, No* raiz)
     else if(ant->item.getChave() > chave)
         ant->esq = new No(chave);
     else
-        cout <<chave<<" >> Item já existe na ABB"<<endl;
+        cout <<"["<<chave<<"] >> Item já existe na ABB"<<endl << endl;
 }
 void ABB::printABB(No* raiz, int tab)
 {
-    /*if(raiz != NULL)
-    {
-        printABB(raiz->esq);
-        cout <<raiz->dado<< endl;
-        printABB(raiz->dir);
-    }*/
-    if(raiz == NULL)
+    /*if(raiz == NULL)
         return;
 
     tab += DIST;
@@ -111,10 +106,24 @@ void ABB::printABB(No* raiz, int tab)
         cout<< " ";
     cout<<raiz->item.getChave()<<endl;
  
-    printABB(raiz->esq, tab);    
+    printABB(raiz->esq, tab);*/
+    if(raiz == NULL)
+        return;
+
+    tab += DIST;
+    for (int i = DIST; i < tab; i++)
+        cout<< " ";
+    cout<<raiz->item.getChave()<<endl;
+    printABB(raiz->dir, tab);
+    printABB(raiz->esq, tab);
+
 }
 
 //Métodos públicos
+ABB::ABB()
+{
+    this->raiz = NULL;
+}
 void ABB::criar()
 {
     this->raiz = NULL;
@@ -133,22 +142,74 @@ void ABB::printABB()
         cout << "ABB vazia"<<endl;
     else printABB(this->raiz,0);
 }
+//Funções gerais
+void start(ABB*);
+void menu();
+void opcao01(ABB*);
+void opcao02(ABB*);
+void opcao03(ABB*);
 
 int main()
 {
-    ABB abb;
-    abb.criar();
+    ABB *abb = new ABB();
     
-    abb.inserir(10);    
-    abb.inserir(6);
-    abb.inserir(4);
-    abb.inserir(9);
-    abb.inserir(15);
-    abb.inserir(13);
-    abb.inserir(14);
-    abb.inserir(16);
-    abb.inserir(4);
+    start(abb);
 
-    abb.printABB();
     return 0;
+}
+void start(ABB *abb)
+{
+    int op;
+    do
+    {
+        menu();
+        cout << ">> ";
+        cin >> op;
+
+        switch(op){
+            case 0:
+            break;
+            case 1:
+                opcao01(abb);
+                cout<<endl;
+            break;
+            case 2:
+                opcao02(abb);
+                cout<<endl;
+            break;
+            case 3:
+                opcao03(abb);
+                cout<<endl;
+            break;            
+            default:
+                cout << "operação inválida" << endl;
+            break;
+        }        
+    } while (op != 0);
+    cout<<endl;
+
+}
+void menu()
+{
+    cout<<" MENU "<<endl;
+    cout<<" (1)  - inserir"<<endl;
+    cout<<" (2)  - imprimir"<<endl;
+    cout<<" (3)  - "<<endl;
+    cout<<" (0)  - SAIR"<<endl;
+    cout<<endl;
+}
+void opcao01(ABB *abb)
+{
+    int k;
+    cout <<"chave >> ";
+    cin >> k;
+    abb->inserir(k);
+}
+void opcao02(ABB *abb)
+{
+    abb->printABB();
+}
+void opcao03(ABB *abb)
+{
+    cout <<"OK"<< endl;
 }
