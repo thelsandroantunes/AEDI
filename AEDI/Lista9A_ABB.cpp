@@ -1,7 +1,7 @@
 /*
     Programa: Árvore Binária de Busca (ABB)
     Autor: Thelsandro Antunes
-    2ª Versão 
+    3ª Versão 
     Concluída em: 24/06/2018
     Breve descrição:
         Este programa utiliza Classes, objetos, atributos, métodos e construtores em C++
@@ -59,6 +59,7 @@ private:
     No *raiz;
 
     void inserir(int,No*);
+    bool buscar(int,No*);
     void printABB(No*,int);
 
 public:
@@ -66,6 +67,7 @@ public:
     void criar();
     bool vazio();
     void inserir(int);    
+    bool buscar(int);
     void printABB();
 };
 
@@ -92,6 +94,13 @@ void ABB::inserir(int chave, No* raiz)
         ant->esq = new No(chave);
     else
         cout <<"["<<chave<<"] >> Item já existe na ABB"<<endl << endl;
+}
+bool ABB::buscar(int chave, No* raiz)
+{
+    if(raiz == NULL) return false;
+    if(chave == raiz->item.getChave()) return true;
+    else if(chave > raiz->item.getChave()) buscar(chave,raiz->dir);
+    else if(chave < raiz->item.getChave()) buscar(chave,raiz->esq);
 }
 void ABB::printABB(No* raiz, int tab)
 {
@@ -135,6 +144,10 @@ bool ABB::vazio()
 void ABB::inserir(int chave)
 {
     inserir(chave,this->raiz);
+}
+bool ABB::buscar(int chave)
+{
+    return buscar(chave,this->raiz);
 }
 void ABB::printABB()
 {
@@ -192,16 +205,16 @@ void start(ABB *abb)
 void menu()
 {
     cout<<" MENU "<<endl;
-    cout<<" (1)  - inserir"<<endl;
-    cout<<" (2)  - imprimir"<<endl;
-    cout<<" (3)  - "<<endl;
-    cout<<" (0)  - SAIR"<<endl;
+    cout<<" (1) - inserir"<<endl;
+    cout<<" (2) - imprimir"<<endl;
+    cout<<" (3) - buscar"<<endl;
+    cout<<" (0) - SAIR"<<endl;
     cout<<endl;
 }
 void opcao01(ABB *abb)
 {
     int k;
-    cout <<"chave >> ";
+    cout <<"insere(k) >> ";
     cin >> k;
     abb->inserir(k);
 }
@@ -211,5 +224,15 @@ void opcao02(ABB *abb)
 }
 void opcao03(ABB *abb)
 {
-    cout <<"OK"<< endl;
+    if(abb->vazio()){
+        cout << "Árvore ABB está vazia."<<endl;
+        return;
+    } 
+    
+    int k;
+    cout <<"busca(k) >> ";
+    cin >> k;
+
+    if(abb->buscar(k)) cout << "Chave está na ABB"<<endl;
+    else cout << "NÃO encontrado"<<endl;
 }
