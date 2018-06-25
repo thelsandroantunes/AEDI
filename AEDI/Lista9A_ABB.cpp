@@ -1,14 +1,14 @@
 /*
     Programa: Árvore Binária de Busca (ABB)
     Autor: Thelsandro Antunes
-    3ª Versão 
-    Concluída em: 24/06/2018
+    4ª Versão 
+    Concluída em: 25/06/2018
     Breve descrição:
         Este programa utiliza Classes, objetos, atributos, métodos e construtores em C++
 */
 
 #include<iostream>
-#define DIST 3
+#define DIST 5
 
 using namespace std;
 
@@ -40,6 +40,7 @@ public:
 
     No();
     No(int);
+    ~No();
 };
 No::No()
 {
@@ -52,14 +53,19 @@ No::No(int chave)
     this->esq = NULL;
     this->item.setChave(chave);
 }
+No::~No()
+{
+    delete this->esq;
+    delete this->dir;
+}
 
 class ABB
 {
 private:
     No *raiz;
-
     void inserir(int,No*);
     bool buscar(int,No*);
+    bool remover(No*,No*,int);
     void printABB(No*,int);
 
 public:
@@ -68,6 +74,7 @@ public:
     bool vazio();
     void inserir(int);    
     bool buscar(int);
+    bool remover(int);
     void printABB();
 };
 
@@ -102,21 +109,129 @@ bool ABB::buscar(int chave, No* raiz)
     else if(chave > raiz->item.getChave()) buscar(chave,raiz->dir);
     else if(chave < raiz->item.getChave()) buscar(chave,raiz->esq);
 }
-void ABB::printABB(No* raiz, int tab)
+bool ABB::remover(No* pai, No* raiz, int value)
 {
     /*if(raiz == NULL)
-        return;
+        return false;
+    if(chave < raiz->item.getChave())
+        return remover(chave, raiz->esq);
+    else if(chave > raiz->item.getChave())
+        return remover(chave, raiz->dir);
 
+    if(chave == raiz->item.getChave())
+    {
+        //Caso 3: 2 Filhos
+        if(raiz->esq != NULL && raiz->dir != NULL)    
+        {
+            cout << "2 filhos" <<endl;
+            
+            //Encontrar maior da esq de raiz
+            No* ME = raiz->esq->dir;
+            No*ant = raiz->esq;
+            while(ME->dir != NULL)
+            {
+                ME = ME->dir;
+                ant = ant->dir;
+            }                
+            
+            raiz->item.setChave(ME->item.getChave());            
+            ant->dir = NULL;
+
+            delete ME;
+
+            return true;
+        }
+        else
+        {            
+            No* aux;
+            //Caso 1: NÃO há Folha
+            if(raiz->esq == NULL and raiz->dir == NULL)
+            {
+                cout << "SEM filhos" <<endl;                
+                delete raiz;
+                raiz = NULL; 
+            }                
+            //Caso 2: 1 Filho (dir)
+            else if(raiz->esq == NULL and raiz->dir != NULL)
+            {
+                cout << "1 filho (dir)" <<endl;
+                aux = raiz->dir;
+                delete raiz;
+                raiz->item.setChave(aux->item.getChave());
+                raiz->esq = raiz->dir = NULL;                
+            }                
+            //Caso 2: 1 Filho (esq)
+            else if(raiz->dir == NULL and raiz->esq != NULL)
+            {
+                cout << "1 filho (esq)" <<endl;
+                aux = raiz->esq;
+                delete raiz;
+                raiz->item.setChave(aux->item.getChave());
+                raiz->esq = raiz->dir = NULL;
+            } 
+
+            return true;
+        }
+    }
+    return false;*/
+    if (!raiz) 
+        return false;
+    
+    if (raiz->item.getChave() == value) 
+    {
+        if (raiz->esq == NULL || raiz->dir == NULL) 
+        {
+            No* aux = raiz->esq;
+            if (raiz->dir) 
+                aux = raiz->dir;
+            
+            if (pai)
+            {
+                if (pai->esq == raiz)
+                    pai->esq = aux;
+                else
+                    pai->dir = aux;
+            } 
+            else 
+                this->raiz = aux;
+        } 
+        else 
+        {
+            No* p = raiz->dir;
+            while (p->esq) 
+                p = p->esq;
+            
+            int aux = raiz->item.getChave();
+
+            raiz->item.setChave(p->item.getChave());
+            p->item.setChave(aux);
+            
+            return remover(raiz, raiz->dir, aux);
+        }
+        delete raiz;
+    
+        return true;
+    }
+
+    return remover(raiz, raiz->esq, value) || remover(raiz, raiz->dir, value);
+}
+void ABB::printABB(No* raiz, int tab)
+{
+    No *p = raiz;
+
+    if(p == NULL)
+        return;
+    
     tab += DIST;
-    printABB(raiz->dir, tab);
+    printABB(p->dir, tab);
  
     cout<<endl;
     for (int i = DIST; i < tab; i++)
         cout<< " ";
-    cout<<raiz->item.getChave()<<endl;
+    cout<<p->item.getChave()<<endl;
  
-    printABB(raiz->esq, tab);*/
-    if(raiz == NULL)
+    printABB(p->esq, tab);
+    /*if(raiz == NULL)
         return;
 
     tab += DIST;
@@ -124,7 +239,7 @@ void ABB::printABB(No* raiz, int tab)
         cout<< " ";
     cout<<raiz->item.getChave()<<endl;
     printABB(raiz->dir, tab);
-    printABB(raiz->esq, tab);
+    printABB(raiz->esq, tab);*/
 
 }
 
@@ -149,6 +264,10 @@ bool ABB::buscar(int chave)
 {
     return buscar(chave,this->raiz);
 }
+bool ABB::remover(int chave)
+{
+    return remover(NULL, this->raiz, chave);
+}
 void ABB::printABB()
 {
     if(this->raiz == NULL)
@@ -161,6 +280,8 @@ void menu();
 void opcao01(ABB*);
 void opcao02(ABB*);
 void opcao03(ABB*);
+void opcao04(ABB*);
+
 
 int main()
 {
@@ -193,7 +314,11 @@ void start(ABB *abb)
             case 3:
                 opcao03(abb);
                 cout<<endl;
-            break;            
+            break;
+            case 4:
+                opcao04(abb);
+                cout<<endl;
+            break;
             default:
                 cout << "operação inválida" << endl;
             break;
@@ -208,6 +333,7 @@ void menu()
     cout<<" (1) - inserir"<<endl;
     cout<<" (2) - imprimir"<<endl;
     cout<<" (3) - buscar"<<endl;
+    cout<<" (4) - remover"<<endl;
     cout<<" (0) - SAIR"<<endl;
     cout<<endl;
 }
@@ -235,4 +361,18 @@ void opcao03(ABB *abb)
 
     if(abb->buscar(k)) cout << "Chave está na ABB"<<endl;
     else cout << "NÃO encontrado"<<endl;
+}
+void opcao04(ABB *abb)
+{
+    if(abb->vazio()){
+        cout << "Árvore ABB está vazia."<<endl;
+        return;
+    } 
+    
+    int k;
+    cout <<"remove(k) >> ";
+    cin >> k;
+
+    if(abb->remover(k)) cout << "Removido com SUCESSO"<<endl;
+    else cout << "NÃO encontrado na ABB"<<endl;
 }
