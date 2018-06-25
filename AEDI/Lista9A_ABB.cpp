@@ -109,7 +109,7 @@ bool ABB::buscar(int chave, No* raiz)
     else if(chave > raiz->item.getChave()) buscar(chave,raiz->dir);
     else if(chave < raiz->item.getChave()) buscar(chave,raiz->esq);
 }
-bool ABB::remover(No* pai, No* raiz, int value)
+bool ABB::remover(No* pai, No* raiz, int chave)
 {
     /*if(raiz == NULL)
         return false;
@@ -177,7 +177,7 @@ bool ABB::remover(No* pai, No* raiz, int value)
     if (!raiz) 
         return false;
     
-    if (raiz->item.getChave() == value) 
+    if (raiz->item.getChave() == chave) 
     {
         if (raiz->esq == NULL || raiz->dir == NULL) 
         {
@@ -213,7 +213,7 @@ bool ABB::remover(No* pai, No* raiz, int value)
         return true;
     }
 
-    return remover(raiz, raiz->esq, value) || remover(raiz, raiz->dir, value);
+    return remover(raiz, raiz->esq, chave) || remover(raiz, raiz->dir, chave);
 }
 void ABB::printABB(No* raiz, int tab)
 {
