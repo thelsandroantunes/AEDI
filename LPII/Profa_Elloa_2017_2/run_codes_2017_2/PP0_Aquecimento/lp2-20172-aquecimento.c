@@ -1,11 +1,11 @@
 /*  Autor: Thelsandro Costa Antunes
 *   Data: 23/08/2017
-*   MatrÌcula: 1715010666
+*   Matr√≠cula: 1715010666
 *   EST-UEA
-*   Engenharia Ciclo-B·sico
-*   Disciplina: Linguagem de ProgramaÁ„o II
-*   Professora: Ello· B. Guedes
-*   Aquecimento para ExercÌcios Pr·ticos
+*   Engenharia Ciclo-B√°sico
+*   Disciplina: Linguagem de Programa√ß√£o II
+*   Professora: Ello√° B. Guedes
+*   Aquecimento para Exerc√≠cios Pr√°ticos
 */
 
 
